@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /data/postgres
+    networks:
+      - network-keycloak
+
+  keycloak:
+    image: bitnami/keycloak:latest
+    restart: unless-stopped
+    environment:
+      KEYCLOAK_ADMIN_USER: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_MANAGEMENT_USER: ${KEYCLOAK_MANAGEMENT_USER}
+      KEYCLOAK_MANAGEMENT_PASSWORD: ${KEYCLOAK_MANAGEMENT_PASSWORD}
+      KEYCLOAK_DATABASE_HOST: ${KEYCLOAK_DATABASE_HOST}
+      KEYCLOAK_DATABASE_PORT: ${KEYCLOAK_DATABASE_PORT}
+      KEYCLOAK_DATABASE_NAME: ${KEYCLOAK_DATABASE_NAME}
+      KEYCLOAK_DATABASE_USER: ${KEYCLOAK_DATABASE_USER}
+      KEYCLOAK_DATABASE_PASSWORD: ${KEYCLOAK_DATABASE_PASSWORD}
+    depends_on:
+      - postgres
+    ports:
+      - "1664:8080"
+    networks:
+      - network-keycloak
+
+networks:
+  network-keycloak:
