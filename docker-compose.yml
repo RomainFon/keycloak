@@ -36,8 +36,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_network"
-      - "traefik.http.routers.keycloak_http.rule=Host(`${APP_URL}`)"
-      - "traefik.http.routers.keycloak_https.rule=Host(`${APP_URL}`)"
+      - "traefik.http.routers.keycloak_http.rule=Host(`${KEYCLOAK_URL}`)"
+      - "traefik.http.routers.keycloak_https.rule=Host(`${KEYCLOAK_URL}`)"
       - "traefik.http.routers.keycloak_https.tls=true"
       - "traefik.http.routers.keycloak_https.tls.certResolver=http"
       - "traefik.http.routers.keycloak_http.middlewares=https_redirect@file"
