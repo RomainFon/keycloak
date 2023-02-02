@@ -32,6 +32,18 @@ services:
       - "1664:8080"
     networks:
       - network-keycloak
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_network"
+      - "traefik.http.routers.keycloak_http.rule=Host(`${APP_URL}`)"
+      - "traefik.http.routers.keycloak_https.rule=Host(`${APP_URL}`)"
+      - "traefik.http.routers.keycloak_https.tls=true"
+      - "traefik.http.routers.keycloak_https.tls.certResolver=http"
+      - "traefik.http.routers.keycloak_http.middlewares=https_redirect@file"
+
 
 networks:
   network-keycloak:
+  traefik_network:
+    external: true
